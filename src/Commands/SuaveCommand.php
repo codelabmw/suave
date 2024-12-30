@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Codelabmw\Suave\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class SuaveCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'suave';
 
     public $description = 'My command';
 
