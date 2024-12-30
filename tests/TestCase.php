@@ -2,9 +2,9 @@
 
 namespace Codelabmw\Suave\Tests;
 
+use Codelabmw\Suave\SuaveServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Codelabmw\Suave\SuaveServiceProvider;
 
 class TestCase extends Orchestra
 {
