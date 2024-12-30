@@ -1,7 +1,7 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/codelabmw/suave/main/art/suave-banner.png" height="300" alt="Suave">
+    <img src="art/suave-banner.png" alt="Suave">
     <p align="center">
-        <a href="https://github.com/codelabmw/suave/actions"><img alt="GitHub Workflow Status (master)" src="https://github.com/codelabmw/suave/actions/workflows/tests.yml/badge.svg"></a>
+        <a href="https://github.com/codelabmw/suave/actions"><img alt="GitHub Workflow Status (master)" src="https://github.com/codelabmw/suave/actions/workflows/run-tests.yml/badge.svg"></a>
         <a href="https://packagist.org/packages/codelabmw/suave"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/codelabmw/suave"></a>
         <a href="https://packagist.org/packages/codelabmw/suave"><img alt="Latest Version" src="https://img.shields.io/packagist/v/codelabmw/suave"></a>
         <a href="https://packagist.org/packages/codelabmw/suave"><img alt="License" src="https://img.shields.io/packagist/l/codelabmw/suave"></a>
