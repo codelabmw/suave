@@ -2,9 +2,9 @@
 
 namespace Codelabmw\Suave;
 
+use Codelabmw\Suave\Commands\SuaveCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Codelabmw\Suave\Commands\SuaveCommand;
 
 class SuaveServiceProvider extends PackageServiceProvider
 {
