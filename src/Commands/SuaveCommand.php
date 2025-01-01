@@ -3,6 +3,7 @@
 namespace Codelabmw\Suave\Commands;
 
 use Codelabmw\Suave\Services\InstallationService;
+use Codelabmw\Suave\Traits\InstallSanctum;
 use Illuminate\Console\Command;
 
 use function Laravel\Prompts\confirm;
@@ -13,10 +14,12 @@ use function Laravel\Prompts\warning;
 
 class SuaveCommand extends Command
 {
+    use InstallSanctum;
+
     /**
      * The name and signature of the console command.
      */
-    public $signature = 'suave:install';
+    public $signature = 'suave:install {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
 
     /**
      * The console command description.
@@ -48,17 +51,19 @@ class SuaveCommand extends Command
             return self::SUCCESS;
         }
 
+        // TODO: mention file names that might be overwritten.
         warning('Please note that this will overwrite similar named files.');
 
         $confirmation = confirm('Do you want to continue?');
 
-        if (! $confirmation) {
+        if (!$confirmation) {
             info('Installation aborted.');
 
             return self::SUCCESS;
         }
 
-        // TODO: Check if user already installed sanctum, if not run install:api artisan command to install sanctum & generate default files.
+        // Install Sanctum & copy common files.
+        $this->installApi();
 
         foreach ($options as $option) {
             $installer = $this->installationService->getInstaller(str($option)->lower());

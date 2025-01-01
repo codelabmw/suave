@@ -27,13 +27,17 @@
         "codelabmw/statuses": "^1.0",
         "codelabmw/testament": "^1.0",
         "illuminate/contracts": "^10.0||^11.0",
+        "illuminate/filesystem": "*",
+        "illuminate/support": "*",
         "laravel/prompts": "^0.3.2",
-        "spatie/laravel-package-tools": "^1.16"
+        "spatie/laravel-package-tools": "^1.16",
+        "symfony/console": "^7.2"
     },
     "require-dev": {
-        "laravel/pint": "^1.14",
-        "nunomaduro/collision": "^8.1.1||^7.10.0",
         "larastan/larastan": "^2.9",
+        "laravel/pint": "^1.14",
+        "laravel/sanctum": "^4.0",
+        "nunomaduro/collision": "^8.1.1||^7.10.0",
         "orchestra/testbench": "^9.0.0||^8.22.0",
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-arch": "^3.0",
@@ -77,6 +81,6 @@
             "aliases": {}
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
