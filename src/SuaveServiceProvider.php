@@ -3,6 +3,9 @@
 namespace Codelabmw\Suave;
 
 use Codelabmw\Suave\Commands\SuaveCommand;
+use Codelabmw\Suave\Installers\SessionsInstaller;
+use Codelabmw\Suave\Installers\TokensInstaller;
+use Codelabmw\Suave\Services\InstallationService;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -18,8 +21,16 @@ class SuaveServiceProvider extends PackageServiceProvider
         $package
             ->name('suave')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_suave_table')
             ->hasCommand(SuaveCommand::class);
+    }
+
+    public function packageRegistered()
+    {
+        $this->app->bind(InstallationService::class, function () {
+            return new InstallationService([
+                'tokens' => TokensInstaller::class,
+                'sessions' => SessionsInstaller::class,
+            ]);
+        });
     }
 }

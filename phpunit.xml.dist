@@ -16,8 +16,14 @@
     backupStaticProperties="false"
 >
     <testsuites>
-        <testsuite name="Codelabmw Test Suite">
-            <directory>tests</directory>
+        <testsuite name="architecture">
+            <directory suffix=".php">tests/Architecture</directory>
+        </testsuite>
+        <testsuite name="unit">
+            <directory suffix=".php">tests/Unit</directory>
+        </testsuite>
+        <testsuite name="feature">
+            <directory suffix=".php">tests/Feature</directory>
         </testsuite>
     </testsuites>
     <logging>

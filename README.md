@@ -8,7 +8,7 @@
     </p>
 </p>
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+A Laravel package that scaffolds API authentication for both token & session based authentication using `laravel/sanctum`. It uses verification codes for email verification and temporary passwords for forgot password instead of redirecting users to frontend.
 
 ## Installation
 
