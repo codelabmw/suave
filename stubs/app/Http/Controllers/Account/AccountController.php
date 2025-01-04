@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Models\User;
 use App\Events\UserCreatedEvent;
 use App\Http\Controllers\Controller;
-
+use App\Models\User;
 use Codelabmw\Statuses\Http;
-
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
@@ -31,7 +29,7 @@ class AccountController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        defer(fn() => event(new UserCreatedEvent($user)));
+        defer(fn () => event(new UserCreatedEvent($user)));
 
         return response()->json($user, Http::CREATED);
     }

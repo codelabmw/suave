@@ -47,7 +47,7 @@ return [
     | Verification Code Resend After
     |--------------------------------------------------------------------------
     |
-    | This is the number of minutes that the user has to wait before they 
+    | This is the number of minutes that the user has to wait before they
     | can request a new verification code.
     |
     */

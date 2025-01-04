@@ -16,7 +16,7 @@ it('can send email verification code', function () {
 
     // Assert
     $response->assertStatus(Http::NO_CONTENT);
-    Event::assertDispatched('eloquent.created: ' . VerificationCode::class);
+    Event::assertDispatched('eloquent.created: '.VerificationCode::class);
     expect(VerificationCode::count())->toBe(1);
 });
 

@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Account\Session;
 
 use App\Http\Controllers\Controller;
-
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class DeleteSessionController extends Controller
 {

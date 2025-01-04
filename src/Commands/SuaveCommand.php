@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\info;
-use function Laravel\Prompts\spin;
 use function Laravel\Prompts\warning;
 
 class SuaveCommand extends Command
@@ -34,7 +33,7 @@ class SuaveCommand extends Command
 
         $confirmation = confirm('Do you want to continue?');
 
-        if (!$confirmation) {
+        if (! $confirmation) {
             info('Installation aborted.');
 
             return self::SUCCESS;

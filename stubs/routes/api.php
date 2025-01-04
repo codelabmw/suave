@@ -6,4 +6,4 @@
 |------------------------------------------
 */
 
-require __DIR__ . '/v1/accounts.php';
+require __DIR__.'/v1/accounts.php';
