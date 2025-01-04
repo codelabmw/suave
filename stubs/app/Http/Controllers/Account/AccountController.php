@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Account;
 
+use App\Models\User;
 use App\Events\UserCreatedEvent;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+
 use Codelabmw\Statuses\Http;
+
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {

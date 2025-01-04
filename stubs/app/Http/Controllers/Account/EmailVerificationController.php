@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+
 use Codelabmw\Statuses\Http;
+
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 
 class EmailVerificationController extends Controller
 {

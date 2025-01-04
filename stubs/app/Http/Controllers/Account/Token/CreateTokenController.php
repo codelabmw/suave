@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Account\Token;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Http\Controllers\Controller;
+
 use Codelabmw\Statuses\Http;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 
 class CreateTokenController extends Controller
 {

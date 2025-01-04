@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Contracts\Account\MustVerifyEmail;
-use App\Traits\HasVerificationCodes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Contracts\Account\User as BaseUser;
+use App\Traits\HasVerificationCodes;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
