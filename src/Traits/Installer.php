@@ -13,10 +13,14 @@ use Symfony\Component\Process\Process;
 trait Installer
 {
     /**
-     * Install the API Breeze stack.
+     * Install Sanctum and copy necessary files.
      */
     protected function installApi()
     {
+        // Publish suave migrations and configuration file.
+        $this->runCommands(['php artisan vendor:publish --tag=suave-config', 'php artisan vendor:publish --tag=suave-migrations']);
+
+        // Install the Sanctum.
         $this->runCommands(['php artisan install:api']);
 
         $files = new Filesystem;

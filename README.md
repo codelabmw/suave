@@ -12,44 +12,34 @@ A Laravel package that scaffolds API authentication for both token & session bas
 
 ## Installation
 
+> Requires PHP ^8.3
+
 You can install the package via composer:
 
 ```bash
-composer require codelabmw/suave
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="suave-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="suave-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
+composer require codelabmw/suave --dev
 ```
 
 ## Usage
 
-```php
-$suave = new Codelabmw\Suave();
-echo $suave->echoPhrase('Hello, Codelabmw!');
-```
-
-## Testing
+After package installation, run the following artisan command to scaffold API.
 
 ```bash
-composer test
+php artisan suave:install
 ```
+
+This will install [Sanctum](https://laravel.com/docs/11.x/sanctum) and copy necessary files for api routing. You are allowed to edit any of these files to customize the behavior suitable for your application however the default state is adequate for most applications. Copied files includes:
+
+- [x] Routes
+- [x] Contracts
+- [x] Controllers
+- [x] Middlewares
+- [x] Models
+- [x] Notifications
+- [x] Events
+- [x] Listeners
+- [x] Traits
+- [x] Tests
 
 ## Changelog
 

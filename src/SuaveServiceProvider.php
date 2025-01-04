@@ -3,11 +3,8 @@
 namespace Codelabmw\Suave;
 
 use Codelabmw\Suave\Commands\SuaveCommand;
-use Codelabmw\Suave\Installers\SessionsInstaller;
-use Codelabmw\Suave\Installers\TokensInstaller;
-use Codelabmw\Suave\Services\InstallationService;
-use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
 class SuaveServiceProvider extends PackageServiceProvider
 {
