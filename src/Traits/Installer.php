@@ -10,33 +10,67 @@ use RuntimeException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-trait InstallSanctum
+trait Installer
 {
     /**
      * Install the API Breeze stack.
      */
-    protected function installApi(): ?int
+    protected function installApi()
     {
         $this->runCommands(['php artisan install:api']);
 
         $files = new Filesystem;
+
+        // Add api prefix to the application.
+        $this->addApiPrefix('v1');
 
         // Middleware...
         $files->copyDirectory(__DIR__ . '/../../stubs/app/Http/Middleware', app_path('Http/Middleware'));
 
         $this->installMiddlewareAliases([
             'verified' => '\App\Http\Middleware\EnsureEmailIsVerified::class',
+            'password.reset' => '\App\Http\Middleware\EnsureUserResetsPassword::class',
         ]);
 
         $this->installMiddleware([
             '\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class',
         ], 'api', 'prepend');
 
-        // Routes...
-        copy(__DIR__ . '/../../stubs/routes/api.php', base_path('routes/api.php'));
+        // Contracts
+        $files->ensureDirectoryExists(app_path('Contracts'));
+        $files->copyDirectory(__DIR__ . '/../../stubs/app/Contracts', app_path('Contracts'));
+
+        // Events
+        $files->ensureDirectoryExists(app_path('Events'));
+        $files->copyDirectory(__DIR__ . '/../../stubs/app/Events', app_path('Events'));
+
+        // Listeners
+        $files->ensureDirectoryExists(app_path('Listeners'));
+        $files->copyDirectory(__DIR__ . '/../../stubs/app/Listeners', app_path('Listeners'));
+
+        // Models
+        $files->ensureDirectoryExists(app_path('Models'));
+        $files->copyDirectory(__DIR__ . '/../../stubs/app/Models', app_path('Models'));
+
+        // Notifications
+        $files->ensureDirectoryExists(app_path('Notifications'));
+        $files->copyDirectory(__DIR__ . '/../../stubs/app/Notifications', app_path('Notifications'));
+
+        // Traits
+        $files->ensureDirectoryExists(app_path('Traits'));
+        $files->copyDirectory(__DIR__ . '/../../stubs/app/Traits', app_path('Traits'));
+
+        // Controllers...
+        $files->ensureDirectoryExists(app_path('Http/Controllers/Account'));
+        $files->ensureDirectoryExists(app_path('Http/Controllers/Account/Token'));
+        $files->ensureDirectoryExists(app_path('Http/Controllers/Account/Session'));
+        $files->copyDirectory(__DIR__ . '/../../stubs/app/Http/Controllers/Account', app_path('Http/Controllers/Account'));
 
         // Configuration...
         $files->copyDirectory(__DIR__ . '/../../stubs/config', config_path());
+
+        // Factories...
+        $files->copyDirectory(__DIR__ . '/../../stubs/database/factories', base_path('database/factories'));
 
         // Environment...
         if (!$files->exists(base_path('.env'))) {
@@ -48,36 +82,35 @@ trait InstallSanctum
             preg_replace('/APP_URL=(.*)/', 'APP_URL=http://localhost:8000' . PHP_EOL . 'FRONTEND_URL=http://localhost:3000', file_get_contents(base_path('.env')))
         );
 
-        // Tests...
-        if (!$this->installTests()) {
-            return 1;
-        }
+        // Routes...
+        $files->copyDirectory(__DIR__ . '/../../stubs/routes', base_path('routes'));
+
+        // Pest Tests...
+        $files->ensureDirectoryExists(base_path('tests/Feature'));
+        $files->copyDirectory(__DIR__ . '/../../stubs/pest-tests/Feature', base_path('tests/Feature'));
+        $files->copyDirectory(__DIR__ . '/../../stubs/pest-tests/Unit', base_path('tests/Unit'));
+        $files->copy(__DIR__ . '/../../stubs/pest-tests/Pest.php', base_path('tests/Pest.php'));
     }
 
     /**
-     * Install tests.
+     * Add apiPrefix argument to withRouting method in the application.
      */
-    protected function installTests(): bool
+    protected function addApiPrefix(string $prefix): void
     {
-        (new Filesystem)->ensureDirectoryExists(base_path('tests/Feature'));
+        $bootstrapApp = file_get_contents(base_path('bootstrap/app.php'));
 
-        if ($this->isUsingPest()) {
-            if ($this->hasComposerPackage('phpunit/phpunit')) {
-                $this->removeComposerPackages(['phpunit/phpunit'], true);
-            }
-
-            if (!$this->requireComposerPackages(['pestphp/pest', 'pestphp/pest-plugin-laravel'], true)) {
-                return false;
-            }
-
-            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/pest-tests/Feature', base_path('tests/Feature'));
-            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/pest-tests/Unit', base_path('tests/Unit'));
-            (new Filesystem)->copy(__DIR__ . '/../../stubs/pest-tests/Pest.php', base_path('tests/Pest.php'));
-        } else {
-            (new Filesystem)->copyDirectory(__DIR__ . '/../../stubs/tests/Feature', base_path('tests/Feature'));
+        if (Str::contains($bootstrapApp, 'apiPrefix')) {
+            return;
         }
 
-        return true;
+        $bootstrapApp = str_replace(
+            '->withRouting(',
+            '->withRouting('
+            . PHP_EOL . "        apiPrefix: '$prefix',",
+            $bootstrapApp,
+        );
+
+        file_put_contents(base_path('bootstrap/app.php'), $bootstrapApp);
     }
 
     /**

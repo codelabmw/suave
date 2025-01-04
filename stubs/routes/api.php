@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+/*
+|------------------------------------------
+| V1 API ROUTES
+|------------------------------------------
+*/
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+require __DIR__ . '/v1/accounts.php';

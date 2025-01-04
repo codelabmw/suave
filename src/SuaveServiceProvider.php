@@ -21,16 +21,7 @@ class SuaveServiceProvider extends PackageServiceProvider
         $package
             ->name('suave')
             ->hasConfigFile()
+            ->hasMigrations(['create_verification_codes_table', 'add_must_reset_password_to_users_table'])
             ->hasCommand(SuaveCommand::class);
-    }
-
-    public function packageRegistered()
-    {
-        $this->app->bind(InstallationService::class, function () {
-            return new InstallationService([
-                'tokens' => TokensInstaller::class,
-                'sessions' => SessionsInstaller::class,
-            ]);
-        });
     }
 }
