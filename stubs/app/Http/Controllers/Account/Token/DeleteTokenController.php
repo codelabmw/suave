@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Account\Token;
 
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 
 class DeleteTokenController extends Controller

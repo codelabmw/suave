@@ -2,10 +2,9 @@
 
 namespace Codelabmw\Suave\Traits;
 
-use Illuminate\Support\Arr;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-
 use RuntimeException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -29,7 +28,7 @@ trait Installer
         $this->addApiPrefix('v1');
 
         // Middleware...
-        $files->copyDirectory(__DIR__ . '/../../stubs/app/Http/Middleware', app_path('Http/Middleware'));
+        $files->copyDirectory(__DIR__.'/../../stubs/app/Http/Middleware', app_path('Http/Middleware'));
 
         $this->installMiddlewareAliases([
             'verified' => '\App\Http\Middleware\EnsureEmailIsVerified::class',
@@ -42,58 +41,58 @@ trait Installer
 
         // Contracts
         $files->ensureDirectoryExists(app_path('Contracts'));
-        $files->copyDirectory(__DIR__ . '/../../stubs/app/Contracts', app_path('Contracts'));
+        $files->copyDirectory(__DIR__.'/../../stubs/app/Contracts', app_path('Contracts'));
 
         // Events
         $files->ensureDirectoryExists(app_path('Events'));
-        $files->copyDirectory(__DIR__ . '/../../stubs/app/Events', app_path('Events'));
+        $files->copyDirectory(__DIR__.'/../../stubs/app/Events', app_path('Events'));
 
         // Listeners
         $files->ensureDirectoryExists(app_path('Listeners'));
-        $files->copyDirectory(__DIR__ . '/../../stubs/app/Listeners', app_path('Listeners'));
+        $files->copyDirectory(__DIR__.'/../../stubs/app/Listeners', app_path('Listeners'));
 
         // Models
         $files->ensureDirectoryExists(app_path('Models'));
-        $files->copyDirectory(__DIR__ . '/../../stubs/app/Models', app_path('Models'));
+        $files->copyDirectory(__DIR__.'/../../stubs/app/Models', app_path('Models'));
 
         // Notifications
         $files->ensureDirectoryExists(app_path('Notifications'));
-        $files->copyDirectory(__DIR__ . '/../../stubs/app/Notifications', app_path('Notifications'));
+        $files->copyDirectory(__DIR__.'/../../stubs/app/Notifications', app_path('Notifications'));
 
         // Traits
         $files->ensureDirectoryExists(app_path('Traits'));
-        $files->copyDirectory(__DIR__ . '/../../stubs/app/Traits', app_path('Traits'));
+        $files->copyDirectory(__DIR__.'/../../stubs/app/Traits', app_path('Traits'));
 
         // Controllers...
         $files->ensureDirectoryExists(app_path('Http/Controllers/Account'));
         $files->ensureDirectoryExists(app_path('Http/Controllers/Account/Token'));
         $files->ensureDirectoryExists(app_path('Http/Controllers/Account/Session'));
-        $files->copyDirectory(__DIR__ . '/../../stubs/app/Http/Controllers/Account', app_path('Http/Controllers/Account'));
+        $files->copyDirectory(__DIR__.'/../../stubs/app/Http/Controllers/Account', app_path('Http/Controllers/Account'));
 
         // Configuration...
-        $files->copyDirectory(__DIR__ . '/../../stubs/config', config_path());
+        $files->copyDirectory(__DIR__.'/../../stubs/config', config_path());
 
         // Factories...
-        $files->copyDirectory(__DIR__ . '/../../stubs/database/factories', base_path('database/factories'));
+        $files->copyDirectory(__DIR__.'/../../stubs/database/factories', base_path('database/factories'));
 
         // Environment...
-        if (!$files->exists(base_path('.env'))) {
+        if (! $files->exists(base_path('.env'))) {
             copy(base_path('.env.example'), base_path('.env'));
         }
 
         file_put_contents(
             base_path('.env'),
-            preg_replace('/APP_URL=(.*)/', 'APP_URL=http://localhost:8000' . PHP_EOL . 'FRONTEND_URL=http://localhost:3000', file_get_contents(base_path('.env')))
+            preg_replace('/APP_URL=(.*)/', 'APP_URL=http://localhost:8000'.PHP_EOL.'FRONTEND_URL=http://localhost:3000', file_get_contents(base_path('.env')))
         );
 
         // Routes...
-        $files->copyDirectory(__DIR__ . '/../../stubs/routes', base_path('routes'));
+        $files->copyDirectory(__DIR__.'/../../stubs/routes', base_path('routes'));
 
         // Pest Tests...
         $files->ensureDirectoryExists(base_path('tests/Feature'));
-        $files->copyDirectory(__DIR__ . '/../../stubs/pest-tests/Feature', base_path('tests/Feature'));
-        $files->copyDirectory(__DIR__ . '/../../stubs/pest-tests/Unit', base_path('tests/Unit'));
-        $files->copy(__DIR__ . '/../../stubs/pest-tests/Pest.php', base_path('tests/Pest.php'));
+        $files->copyDirectory(__DIR__.'/../../stubs/pest-tests/Feature', base_path('tests/Feature'));
+        $files->copyDirectory(__DIR__.'/../../stubs/pest-tests/Unit', base_path('tests/Unit'));
+        $files->copy(__DIR__.'/../../stubs/pest-tests/Pest.php', base_path('tests/Pest.php'));
     }
 
     /**
@@ -110,7 +109,7 @@ trait Installer
         $bootstrapApp = str_replace(
             '->withRouting(',
             '->withRouting('
-            . PHP_EOL . "        apiPrefix: '$prefix',",
+            .PHP_EOL."        apiPrefix: '$prefix',",
             $bootstrapApp,
         );
 
@@ -125,17 +124,17 @@ trait Installer
         $bootstrapApp = file_get_contents(base_path('bootstrap/app.php'));
 
         $names = collect(Arr::wrap($names))
-            ->filter(fn($name) => !Str::contains($bootstrapApp, $name))
+            ->filter(fn ($name) => ! Str::contains($bootstrapApp, $name))
             ->whenNotEmpty(function ($names) use ($bootstrapApp, $group, $modifier) {
-                $names = $names->map(fn($name) => "$name")->implode(',' . PHP_EOL . '            ');
+                $names = $names->map(fn ($name) => "$name")->implode(','.PHP_EOL.'            ');
 
                 $bootstrapApp = str_replace(
                     '->withMiddleware(function (Middleware $middleware) {',
                     '->withMiddleware(function (Middleware $middleware) {'
-                    . PHP_EOL . "        \$middleware->$group($modifier: ["
-                    . PHP_EOL . "            $names,"
-                    . PHP_EOL . '        ]);'
-                    . PHP_EOL,
+                    .PHP_EOL."        \$middleware->$group($modifier: ["
+                    .PHP_EOL."            $names,"
+                    .PHP_EOL.'        ]);'
+                    .PHP_EOL,
                     $bootstrapApp,
                 );
 
@@ -151,17 +150,17 @@ trait Installer
         $bootstrapApp = file_get_contents(base_path('bootstrap/app.php'));
 
         $aliases = collect($aliases)
-            ->filter(fn($alias) => !Str::contains($bootstrapApp, $alias))
+            ->filter(fn ($alias) => ! Str::contains($bootstrapApp, $alias))
             ->whenNotEmpty(function ($aliases) use ($bootstrapApp) {
-                $aliases = $aliases->map(fn($name, $alias) => "'$alias' => $name")->implode(',' . PHP_EOL . '            ');
+                $aliases = $aliases->map(fn ($name, $alias) => "'$alias' => $name")->implode(','.PHP_EOL.'            ');
 
                 $bootstrapApp = str_replace(
                     '->withMiddleware(function (Middleware $middleware) {',
                     '->withMiddleware(function (Middleware $middleware) {'
-                    . PHP_EOL . '        $middleware->alias(['
-                    . PHP_EOL . "            $aliases,"
-                    . PHP_EOL . '        ]);'
-                    . PHP_EOL,
+                    .PHP_EOL.'        $middleware->alias(['
+                    .PHP_EOL."            $aliases,"
+                    .PHP_EOL.'        ]);'
+                    .PHP_EOL,
                     $bootstrapApp,
                 );
 
@@ -259,12 +258,12 @@ trait Installer
             try {
                 $process->setTty(true);
             } catch (RuntimeException $e) {
-                $this->output->writeln('  <bg=yellow;fg=black> WARN </> ' . $e->getMessage() . PHP_EOL);
+                $this->output->writeln('  <bg=yellow;fg=black> WARN </> '.$e->getMessage().PHP_EOL);
             }
         }
 
         $process->run(function ($type, $line) {
-            $this->output->write('    ' . $line);
+            $this->output->write('    '.$line);
         });
     }
 

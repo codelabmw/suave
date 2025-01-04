@@ -3,12 +3,9 @@
 namespace App\Notifications;
 
 use App\Models\User;
-
 use Codelabmw\Testament\Enums\CodeType;
 use Codelabmw\Testament\Testament;
-
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Hash;

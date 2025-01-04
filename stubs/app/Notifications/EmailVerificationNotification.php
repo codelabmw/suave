@@ -3,11 +3,8 @@
 namespace App\Notifications;
 
 use App\Models\User;
-
 use Codelabmw\Testament\Testament;
-
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -48,9 +45,9 @@ class EmailVerificationNotification extends Notification
 
         return (new MailMessage)
             ->subject('Email Verification')
-            ->greeting('Hi ' . $this->user->name . ',')
+            ->greeting('Hi '.$this->user->name.',')
             ->line('Use the following code to verify your email address. Please note that this code will expire in 15 minutes.')
-            ->line('Verification Code: ' . $verificationCode->code)
+            ->line('Verification Code: '.$verificationCode->code)
             ->line('Thank you for using our application!');
     }
 
